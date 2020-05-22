@@ -22,10 +22,11 @@ class InterviewsController < ApplicationController
     puts(interview_params)
     puts(params)
     emails = params[:pemail]
-    allEmails = emails.split(",")
+    # allEmails = emails.split(",")
     puts(emails)
+    @interview = Interview.create(:date => interview_params[:date], :start => interview_params[:start], :end => interview_params[:end], :title => interview_params[:title])
     # @interview = Interview.create(:date => params[:interview][:date], :start => params[:interview][:start], :end => params[:interview][:end], :title => params[:interview][:title])
-    @interview = Interview.create(interview_params)
+    # @interview = Interview.create(interview_params)
     # allEmails.each do |email|
       # call the mailer
     # end
