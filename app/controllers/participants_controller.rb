@@ -24,7 +24,7 @@ class ParticipantsController < ApplicationController
   # POST /participants
   # POST /participants.json
   def create
-    @participant = Participant.new(participant_params)
+    @participant = Participant.create(params)
 
     respond_to do |format|
       if @participant.save

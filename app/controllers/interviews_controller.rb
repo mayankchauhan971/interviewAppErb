@@ -1,5 +1,6 @@
 class InterviewsController < ApplicationController
   before_action :set_interview, only: [:show, :edit, :update, :destroy]
+  before_action :set_participant, only: [:show, :edit, :update, :destroy]
 
   def index
     @interviews = Interview.all
@@ -16,7 +17,18 @@ class InterviewsController < ApplicationController
   end
 
   def create
-    @interview = Interview.new(interview_params)
+    @interview = Interview.new
+    puts("------------------------")
+    puts(interview_params)
+    puts(params)
+    emails = params[:pemail]
+    allEmails = emails.split(",")
+    puts(emails)
+    # @interview = Interview.create(:date => params[:interview][:date], :start => params[:interview][:start], :end => params[:interview][:end], :title => params[:interview][:title])
+    @interview = Interview.create(interview_params)
+    # allEmails.each do |email|
+      # call the mailer
+    # end
 
     respond_to do |format|
       if @interview.save
@@ -30,6 +42,11 @@ class InterviewsController < ApplicationController
   end
 
   def update
+    @interview.update(interview_params)
+    @participant = @interview.participant
+    for participant in participants do
+      # updation mails
+    end
     respond_to do |format|
       if @interview.update(interview_params)
         format.html { redirect_to @interview, notice: 'Interview was successfully updated.' }
@@ -55,6 +72,11 @@ class InterviewsController < ApplicationController
     end
 
     def interview_params
-      params.require(:interview).permit(:date, :start, :end, :title)
+      params.require(:interview).permit(:date, :start, :end, :title, :pemail)
+    end
+
+    # refer to model
+    def set_participant
+      @participants = @interview.participants
     end
 end
