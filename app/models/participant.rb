@@ -1,4 +1,5 @@
 class Participant < ApplicationRecord
-  has_many :interviews, through: :participants_to_interview
-  has_many :participants_to_interview,dependent: :destroy
+  # added the first line because participant will go through it
+  has_many :interview_participants,dependent: :destroy
+  has_many :interviews, through: :interview_participants
 end

@@ -17,46 +17,40 @@ class InterviewsController < ApplicationController
   end
 
   def create
-    @interview = Interview.new
-    puts("------------------------")
-    puts(interview_params)
-    puts(params)
-    emails = params[:pemail]
-    # allEmails = emails.split(",")
-    puts(emails)
-    @interview = Interview.create(:date => interview_params[:date], :start => interview_params[:start], :end => interview_params[:end], :title => interview_params[:title])
-    # @interview = Interview.create(:date => params[:interview][:date], :start => params[:interview][:start], :end => params[:interview][:end], :title => params[:interview][:title])
-    # @interview = Interview.create(interview_params)
-    # allEmails.each do |email|
-      # call the mailer
-    # end
+    if (Interview.clash(interview_params, interview_params[:pemail]))
+      redirect_to interviews_path
+      flash.alert = "Clash of Interviews, Couldn't create the interview."
+    else
+      @interview = Interview.new
+      emails = interview_params[:pemail]
+      allEmails = emails.split(",")
+      @interview = Interview.create(:start => interview_params[:start], :end => interview_params[:end], :title => interview_params[:title])
 
-    respond_to do |format|
-      if @interview.save
-        format.html { redirect_to @interview, notice: 'Interview was successfully created.' }
-        format.json { render :show, status: :created, location: @interview }
-      else
-        format.html { render :new }
-        format.json { render json: @interview.errors, status: :unprocessable_entity }
+      allEmails.each do |email|
+        # link participant and email for every interview
+        curParticipant = Participant.find_or_create_by(email: email)
+        @interviewParticipants = InterviewParticipant.create(:interview=> @interview, :participant => curParticipant )
+      end
+
+      respond_to do |format|
+        if @interview.save
+          format.html { redirect_to @interview, notice: 'Interview was successfully created.' }
+          format.json { render :show, status: :created, location: @interview }
+        else
+          format.html { render :new }
+          format.json { render json: @interview.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def update
-    @interview.update(interview_params)
-    @participant = @interview.participant
-    for participant in participants do
-      # updation mails
-    end
-    respond_to do |format|
-      if @interview.update(interview_params)
-        format.html { redirect_to @interview, notice: 'Interview was successfully updated.' }
-        format.json { render :show, status: :ok, location: @interview }
-      else
-        format.html { render :edit }
-        format.json { render json: @interview.errors, status: :unprocessable_entity }
-      end
-    end
+    @interview.update(:start => interview_params[:start], :end => interview_params[:end], :title => interview_params[:title])
+    # @participant = @interview.participant
+    # for participant in participants do
+    #   # updation mails
+    # end
+    redirect_to @interview
   end
 
   def destroy

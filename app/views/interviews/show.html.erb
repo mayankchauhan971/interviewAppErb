@@ -6,11 +6,6 @@
 </p>
 
 <p>
-  <strong>Date:</strong>
-  <%= @interview.date %>
-</p>
-
-<p>
   <strong>Start:</strong>
   <%= @interview.start %>
   <strong>End:</strong>
@@ -19,7 +14,7 @@
 
 <div>
   <strong>Participant's Email</strong>
-  <% @participants.each do |p| %>
+  <% @interview.participants.each do |p| %>
     <%= p.email %>
     <br>
   <%end%>
