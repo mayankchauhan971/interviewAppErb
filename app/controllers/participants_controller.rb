@@ -1,30 +1,22 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
 
-  # GET /participants
-  # GET /participants.json
   def index
     @participants = Participant.all
   end
 
-  # GET /participants/1
-  # GET /participants/1.json
   def show
   end
 
-  # GET /participants/new
   def new
     @participant = Participant.new
   end
 
-  # GET /participants/1/edit
   def edit
   end
 
-  # POST /participants
-  # POST /participants.json
   def create
-    @participant = Participant.create(params)
+    @participant = Participant.create(participant_params)
 
     respond_to do |format|
       if @participant.save
@@ -37,8 +29,6 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /participants/1
-  # PATCH/PUT /participants/1.json
   def update
     respond_to do |format|
       if @participant.update(participant_params)
@@ -51,8 +41,6 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  # DELETE /participants/1
-  # DELETE /participants/1.json
   def destroy
     @participant.destroy
     respond_to do |format|
@@ -62,13 +50,11 @@ class ParticipantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_participant
       @participant = Participant.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def participant_params
-      params.require(:participant).permit(:email)
+      params.require(:participant).permit(:email, :resume)
     end
 end

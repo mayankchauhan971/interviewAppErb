@@ -5,5 +5,14 @@
   <%= @participant.email %>
 </p>
 
+<p>
+  <strong>Resume:</strong>
+  <% if @participant.resume.attached? %>
+    <%= link_to 'Download', @participant.resume, download: '' %>
+  <%else%>
+    No Resume Provided
+  <%end%>
+</p>
+
 <%= link_to 'Edit', edit_participant_path(@participant) %> |
 <%= link_to 'Back', participants_path %>

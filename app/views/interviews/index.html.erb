@@ -16,8 +16,8 @@
   <tbody>
     <% @interviews.each do |interview| %>
     <tr>
-      <td><%= interview.start %></td>
-      <td><%= interview.end %></td>
+      <td><%= interview.start.utc %></td>
+      <td><%= interview.end.utc %></td>
       <td><%= interview.title %></td>
       <td>
         <% interview.participants.each do |p| %>
