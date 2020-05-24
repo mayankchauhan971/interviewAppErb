@@ -35,7 +35,7 @@ class InterviewsController < ApplicationController
         @interviewParticipants = InterviewParticipant.create(:interview=> @interview, :participant => curParticipant, :position => role)
         # for testing
         # InterviewMailer.reminder_mail(@interview, email).deliver_now
-        # InterviewMailer.reminder_mail(@interview).deliver_later(wait_until: @interview.start - 30.minutes)
+        InterviewMailer.reminder_mail(@interview).deliver_later(wait_until: @interview.start - 30.minutes)
       end
 
       respond_to do |format|
