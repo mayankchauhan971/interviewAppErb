@@ -12,18 +12,13 @@
 <% end %>
 
 <div class="field">
-  <%= form.label :date %>
-  <%= form.date_select :date %>
-</div>
-
-<div class="field">
   <%= form.label :start %>
-  <%= form.time_select :start %>
+  <%= form.datetime_field :start %>
 </div>
 
 <div class="field">
   <%= form.label :end %>
-  <%= form.time_select :end %>
+  <%= form.datetime_field :end %>
 </div>
 
 <div class="field">
@@ -34,6 +29,11 @@
 <div class="field">
   <%=form.label :pemail, "Email of Participants (Comma Separated)" %>
   <%= form.text_field :pemail %>
+</div>
+
+<div class="field">
+  <%=form.label :position, "Define Role (Comma Separated)" %>
+  <%= form.text_field :position %>
 </div>
 
 <div class="actions">

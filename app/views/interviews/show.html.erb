@@ -6,22 +6,29 @@
 </p>
 
 <p>
-  <strong>Date:</strong>
-  <%= @interview.date %>
-</p>
-
-<p>
   <strong>Start:</strong>
   <%= @interview.start %>
+</p>
+<p>
   <strong>End:</strong>
   <%= @interview.end %>
 </p>
 
 <div>
   <strong>Participant's Email</strong>
-  <% @participants.each do |p| %>
-    <%= p.email %>
-    <br>
+  <% @interview.participants.each do |p| %>
+  <p>
+    <%= p.email %> || 
+    <% curPosition = InterviewParticipant.where(interview_id: @interview.id, participant_id: p.id)%>
+    <%= curPosition[0].position %>
+    <%if curPosition[0].interviewee? %>
+      <% if p.resume.attached? %>
+        || <%= link_to 'Download', p.resume, download: '' %>
+      <%else%>
+        || No Resume Provided
+      <%end%>
+    <%end%>
+  </p>
   <%end%>
 </div>
 
