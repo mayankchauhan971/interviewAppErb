@@ -3,10 +3,19 @@ class InterviewsController < ApplicationController
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
 
   def index
+  end
+  
+  def home
     @interviews = Interview.all
+    render json: @interviews
   end
 
   def show
+    @participants = @interview.participants
+    render :json => {
+      interview: @interview,
+      participants: @participants.map{|p| p.serialize}
+    }
   end
 
   def new
@@ -35,7 +44,7 @@ class InterviewsController < ApplicationController
         @interviewParticipants = InterviewParticipant.create(:interview=> @interview, :participant => curParticipant, :position => role)
         # for testing
         # InterviewMailer.reminder_mail(@interview, email).deliver_now
-        InterviewMailer.reminder_mail(@interview).deliver_later(wait_until: @interview.start - 30.minutes)
+        # InterviewMailer.reminder_mail(@interview).deliver_later(wait_until: @interview.start - 30.minutes)
       end
 
       respond_to do |format|
@@ -47,6 +56,7 @@ class InterviewsController < ApplicationController
           format.json { render json: @interview.errors, status: :unprocessable_entity }
         end
       end
+    render json: @interview
     end
   end
 
@@ -63,7 +73,7 @@ class InterviewsController < ApplicationController
       InterviewMailer.reminder_mail(@interview).deliver_later(wait_until: @interview.start - 30.minutes)
     end
     
-    redirect_to @interview
+    render json: @interview
   end
 
   def destroy
