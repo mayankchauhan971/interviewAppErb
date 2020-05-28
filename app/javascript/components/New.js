@@ -1,43 +1,29 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import Form from "./Form";
+import { Link } from "react-router-dom";
 
-class New extends React.Component {
-  render() {
-    return (
-      <section>
-        <div className="field">
-          <p>Title</p>
-          <input className="input" id="title" placeholder="Enter Title" />
-        </div>
-        <div className="field">
-          <p>Start Time</p>
-          <input
-            type="datetime-local"
-            id="start"
-            placeholder="Enter Start Time"
-          />
-        </div>
-        <div className="field">
-          <p>End Time</p>
-          <input
-            type="datetime-local"
-            id="end"
-            placeholder="Enter End Time"
-          />
-        </div>
-        <div class="field">
-          <p>Enter Participants</p>
-          <input class="input" id="p-email" placeholder="Enter Participants" />
-        </div>
-        <div class="field">
-          <p>Enter Roles</p>
-          <input class="input" id="p-role" placeholder="Enter Roles" />
-        </div>
-        <div>
-          <a onclick="window.location.href= '/#/';">Home</a>
-        </div>
-      </section>
-    );
-  }
+const New = ()=> {
+
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [title, setTitle] = useState();
+  const [pemail, setPemail] = useState();
+  const [position, setPosition] = useState();
+  const [interviewId, setInterviewId] = useState();
+
+  const req = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  fetch(`http://localhost:3000/interviews`, req)
+    .then(res => res.json())
+    .then(data)
+
+  return <Form />;
 }
 
 export default New;

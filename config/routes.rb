@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :interviews
 
   # SPA ROUTES
-  # get '/home' => 'interviews#home'
+  get '/home' => 'interviews#home'
   # get '/interviews/new' => 'interviews#new'
   # get '/interviews/:id' => 'interviews#show'
 

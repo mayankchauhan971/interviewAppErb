@@ -1,9 +1,10 @@
 import React from "react";
+import Form from "./Form";
 
-class Edit extends React.Component {
-  render() {
-    return <div>From Edit</div>;
+const Edit = ()=> {
+  return (
+    <Form/>
+    );
   }
-}
-
-export default Edit;
+  
+  export default Edit;

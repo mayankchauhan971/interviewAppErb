@@ -49,10 +49,10 @@ class InterviewsController < ApplicationController
 
       respond_to do |format|
         if @interview.save
-          format.html { redirect_to @interview, notice: 'Interview was successfully created.' }
+          format.html { redirecwst_to @interview, notice: 'Interview was successfully created.' }
           format.json { render :show, status: :created, location: @interview }
         else
-          format.html { render :new }
+          # format.html { render :new }
           format.json { render json: @interview.errors, status: :unprocessable_entity }
         end
       end
