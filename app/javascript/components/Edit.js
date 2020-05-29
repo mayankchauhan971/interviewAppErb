@@ -1,10 +1,83 @@
-import React from "react";
-import Form from "./Form";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const Edit = ()=> {
+const Edit = () => {
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [title, setTitle] = useState();
+  const [pemail, setPemail] = useState();
+  const [position, setPosition] = useState();
+
+  useEffect(() => {
+    const data = {
+      start: start,
+      end: end,
+      title: title,
+      pemail: pemail,
+      position: position,
+    };
+
+    const req = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(`http://localhost:3000/interviews`, req).then((res) => res.json());
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submitted form");
+  };
+
   return (
-    <Form/>
-    );
-  }
-  
-  export default Edit;
+    <form onSubmit={handleSubmit}>
+      <label>
+        Title:
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </label>
+      <label>
+        Start:
+        <input
+          type="datetime-local"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+        />
+      </label>
+      <label>
+        End:
+        <input
+          type="datetime-local"
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+        />
+      </label>
+      <label>
+        Enter Participant's Email
+        <input
+          type="text"
+          value={pemail}
+          onChange={(e) => setPemail(e.target.value)}
+        />
+      </label>
+      <label>
+        Enter Participant's Role
+        <input
+          type="text"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
+        />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+};
+
+export default Edit;

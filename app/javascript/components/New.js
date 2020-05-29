@@ -9,21 +9,80 @@ const New = ()=> {
   const [title, setTitle] = useState();
   const [pemail, setPemail] = useState();
   const [position, setPosition] = useState();
-  const [interviewId, setInterviewId] = useState();
 
-  const req = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+  useEffect(()=>{
+
+    let data = {
+      start: start,
+      end: end,
+      title: title,
+      pemail: pemail,
+      position:position
+    };
+
+    const req = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+  
+    fetch(`http://localhost:3000/interviews`, req)
+      .then(res => res.json())
+  });
+
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    console.log("submitted form")
   };
 
-  fetch(`http://localhost:3000/interviews`, req)
-    .then(res => res.json())
-    .then(data)
-
-  return <Form />;
+  return (
+    <form onSubmit = {handleSubmit}>
+      <label>
+        Title:
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </label>
+      <label>
+        Start:
+        <input
+          type="datetime-local"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+        />
+      </label>
+      <label>
+        End:
+        <input
+          type="datetime-local"
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+        />
+      </label>
+      <label>
+        Enter Participant's Email
+        <input
+          type="text"
+          value={pemail}
+          onChange={(e) => setPemail(e.target.value)}
+        />
+      </label>
+      <label>
+        Enter Participant's Role
+        <input
+          type="text"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
+        />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
 }
 
 export default New;
