@@ -24,6 +24,7 @@ const New = ()=> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelectorAll("meta")[1].content
       },
       body: JSON.stringify(data),
     };

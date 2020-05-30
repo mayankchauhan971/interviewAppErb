@@ -1,34 +1,45 @@
 import React, { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-const Home = ()=> {
+import { fetchInterviews } from "../actions/interviewsActions";
 
-  const [interviews, setInterviews] = useState([]);
+const Home = (props)=> {
+
+  const {dispatch, loading, interviews, hasErrors} = props;
 
   useEffect(()=>{
-    fetch("http://localhost:3000/home")
-      .then(res => res.json())
-      .then(interview => {setInterviews(interview)})
-  }, [])
+    dispatch(fetchInterviews())
+  }, [dispatch])
+
+  const renderInterviews = ()=>{
+    if (loading) return <p>Loading posts...</p>;
+    if (hasErrors) return <p>Unable to display posts.</p>;
+    return interviews.map((interview) => (
+        <div>
+          <h3>{interview.title}</h3>
+          <p>Date: {interview.start.split("T")[0]}</p>
+          <p>Start: {interview.start.split("T")[1].slice(0, 5)}</p>
+          <p>End: {interview.end.split("T")[1].slice(0, 5)}</p>
+          <Link to={`/interview/${interview.id}`}>Show</Link>
+          <Link to={`/interview/${interview.id}/edit`}>Edit</Link>
+        </div>
+      )
+    );
+  }  
+
   return (
     <div>
-      {interviews.length > 0 ? (
-        interviews.map((interview) => (
-          <div>
-            <h3>{interview.title}</h3>
-            <p>Date: {interview.start.split("T")[0]}</p>
-            <p>Start: {interview.start.split("T")[1].slice(0, 5)}</p>
-            <p>End: {interview.end.split("T")[1].slice(0, 5)}</p>
-            <Link to={`/interview/${interview.id}`}>Show</Link>
-            <Link to={`/interview/${interview.id}/edit`}>Edit</Link>
-          </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+      {renderInterviews()}
       <Link to="/interview/new">Add Interview</Link>
     </div>
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  loading: state.interviews.loading,
+  interviews: state.interviews.interviews,
+  hasErrors: state.interviews.hasErrors,
+});
+
+export default connect(mapStateToProps)(Home);

@@ -1,31 +1,32 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom"
+import { connect } from "react-redux";
+
+import { fetchInterview } from "../actions/interviewActions";
+
 
 const Show = (props)=> {
 
-  const [show, setShow] = useState();
-  
-  useEffect(()=>{
-    fetch(`http://localhost:3000/interviews/${props.match.params.id}`)
-      .then(res => res.json())
-      .then(data => {setShow(data)})
-  }, [])
-  
-  // show ? show.interview.start : " "
-  return (
-    <div>
-      {!show ? (
-        ""
-      ) : (
+  const { dispatch, loading, interview, hasErrors, participants } = props;
+  const { match: { params: { id } } } = props;
+
+  useEffect(() => {
+    dispatch(fetchInterview(id))
+  }, [dispatch])
+
+  const renderInterview = ()=>{
+    // if (loading) return <p>Loading details of interview...</p>;
+    // if (hasErrors) return <p>Unable to display details of interview.</p>;
+    return interview ? (
         <div>
-          <h3>{show.interview.title}</h3>
-          <p>Date: {show.interview.start.split("T")[0]}</p>
-          <p>Start: {show.interview.start.split("T")[1].slice(0, 5)}</p>
-          <p>End: {show.interview.end.split("T")[1].slice(0, 5)}</p>
+          <h3>{interview.title}</h3>
+          <p>Date: {interview.start.split("T")[0]}</p>
+          <p>Start: {interview.start.split("T")[1].slice(0, 5)}</p>
+          <p>End: {interview.end.split("T")[1].slice(0, 5)}</p>
           <div>
             <h4>Participants</h4>
             <div>
-              {show.participants
+              {participants
                 .map((participant) => (
                   <div>
                       {participant.email} ||
@@ -38,12 +39,24 @@ const Show = (props)=> {
                 .join("\n ")}
             </div>
           </div>
-          <Link to={`/interview/${props.match.params.id}/edit`}>Edit</Link>
-          <Link to="/"> Home</Link>
-        </div>
-      )}
+        </div>) : null
+  }
+  
+  // show ? show.interview.start : " "
+  return (
+    <div>
+      {renderInterview()}
+      <Link to={`/interview/${props.match.params.id}/edit`}>Edit</Link>
+      <Link to="/"> Home</Link>
     </div>
   );
 }
 
-export default Show;
+const mapStateToProps = (state) => ({
+  loading: state.interview.loading,
+  interview: state.interview.interview,
+  hasErrors: state.interview.hasErrors,
+  participants: state.interview.participants
+});
+
+export default connect(mapStateToProps)(Show);
