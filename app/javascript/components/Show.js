@@ -7,7 +7,7 @@ import { fetchInterview } from "../actions/interviewActions";
 
 const Show = (props)=> {
 
-  const { dispatch, loading, interview, hasErrors, participants } = props;
+  const { dispatch, interview} = props;
   const { match: { params: { id } } } = props;
 
   useEffect(() => {
@@ -28,9 +28,7 @@ const Show = (props)=> {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.showInterview.loading,
   interview: state.showInterview.interview,
-  hasErrors: state.showInterview.hasErrors,
   participants: state.showInterview.participants
 });
 
