@@ -6,6 +6,7 @@ import { fetchInterviews } from "../actions/interviewsActions";
 
 const Home = (props)=> {
 
+  console.log(props)
   const {dispatch, loading, interviews, hasErrors} = props;
 
   useEffect(()=>{
@@ -15,7 +16,12 @@ const Home = (props)=> {
   const renderInterviews = ()=>{
     if (loading) return <p>Loading posts...</p>;
     if (hasErrors) return <p>Unable to display posts.</p>;
-    return interviews.map((interview) => (
+  }  
+
+  return (
+    <div>
+      {console.log(interviews)}
+      {interviews.map((interview) => (
         <div>
           <h3>{interview.title}</h3>
           <p>Date: {interview.start.split("T")[0]}</p>
@@ -25,12 +31,7 @@ const Home = (props)=> {
           <Link to={`/interview/${interview.id}/edit`}>Edit</Link>
         </div>
       )
-    );
-  }  
-
-  return (
-    <div>
-      {renderInterviews()}
+    )}
       <Link to="/interview/new">Add Interview</Link>
     </div>
   );
