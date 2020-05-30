@@ -1,4 +1,4 @@
-import * as actions from "../actions/interviewsActions";
+import * as actions from "../actions/interviewActions";
 
 export const initialState = {
   interview: {},
@@ -6,7 +6,8 @@ export const initialState = {
   hasErrors: false
 };
 
-export default function postsReducer(state = initialState, action) {
+export default function interviewReducer(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case actions.GET_INTERVIEW:
       return { ...state, loading: true };

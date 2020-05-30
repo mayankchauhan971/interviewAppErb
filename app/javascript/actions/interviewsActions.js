@@ -27,7 +27,7 @@ export function fetchInterviews() {
         `http://localhost:3000/home`
       );
       const data = await res.json();
-
+      console.log(data);
       dispatch(getInterviewsSuccess(data));
     } catch (error) {
       dispatch(getInterviewsFailure());

@@ -1,4 +1,4 @@
-import * as actions from "../actions/interviewActions";
+import * as actions from "../actions/interviewsActions";
 
 export const initialState = {
   interviews: [],
@@ -6,15 +6,15 @@ export const initialState = {
   hasErrors: false
 };
 
-export default function postsReducer(state = initialState, action) {
+export default function interviewsReducer(state = initialState, action) {
   console.log(action)
   switch (action.type) {
     case actions.GET_INTERVIEWS:
-      return { ...state, loading:true };
+      return { ...state, loading: true };
     case actions.GET_INTERVIEWS_SUCCESS:
       return { interviews: action.payload, loading: false, hasErrors: false };
     case actions.GET_INTERVIEWS_FAILURE:
-      return { ...state, hasErrors: false};
+      return { ...state, hasErrors: false };
     default:
       return state;
   }

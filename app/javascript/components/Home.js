@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-
+import { useDispatch, useSelector } from "react-redux";
 import { fetchInterviews } from "../actions/interviewsActions";
 
 const Home = (props)=> {
-
-  console.log(props)
+  const reduxState = useSelector(state => state)
+  console.log("reduxState");
+  console.log(reduxState);
   const {dispatch, loading, interviews, hasErrors} = props;
 
   useEffect(()=>{
     dispatch(fetchInterviews())
-  }, [dispatch])
+  }, [])
 
   const renderInterviews = ()=>{
     if (loading) return <p>Loading posts...</p>;
@@ -43,4 +44,10 @@ const mapStateToProps = (state) => ({
   hasErrors: state.interviews.hasErrors,
 });
 
+const mapDispatchToProps = dispatch => {
+  return {
+    // explicitly forwarding arguments
+    fetchInterviews: () => dispatch(fetchInterviews()),
+  };
+}
 export default connect(mapStateToProps)(Home);

@@ -4,7 +4,7 @@ import interviewReducer from "./interviewReducer";
 
 const rootReducer = combineReducers({
   interviews: interviewsReducer,
-  interview: interviewReducer,
+  showInterview: interviewReducer,
 });
 
 export default rootReducer;

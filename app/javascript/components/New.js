@@ -10,32 +10,29 @@ const New = ()=> {
   const [pemail, setPemail] = useState();
   const [position, setPosition] = useState();
 
-  useEffect(()=>{
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
 
     let data = {
       start: start,
       end: end,
       title: title,
       pemail: pemail,
-      position:position
+      position: position,
     };
 
     const req = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelectorAll("meta")[1].content
+        "X-CSRF-TOKEN": document.querySelectorAll("meta")[1].content,
       },
       body: JSON.stringify(data),
     };
-  
-    fetch(`http://localhost:3000/interviews`, req)
-      .then(res => res.json())
-  });
 
+    fetch(`http://localhost:3000/interviews`, req).then((res) => res.json());
 
-  const handleSubmit = (e) =>{
-    e.preventDefault();
     console.log("submitted form")
   };
 

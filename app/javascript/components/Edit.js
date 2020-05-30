@@ -8,14 +8,19 @@ const Edit = () => {
   const [pemail, setPemail] = useState();
   const [position, setPosition] = useState();
 
-  useEffect(() => {
-    const data = {
-      start: start,
-      end: end,
-      title: title,
-      pemail: pemail,
-      position: position,
-    };
+  const { match: { params: { id } } } = props;
+
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+      const data = {
+        start: start,
+        end: end,
+        title: title,
+        pemail: pemail,
+        position: position,
+      };
+
 
     const req = {
       method: "PATCH",
@@ -25,11 +30,10 @@ const Edit = () => {
       body: JSON.stringify(data),
     };
 
-    fetch(`http://localhost:3000/interviews`, req).then((res) => res.json());
-  });
+    fetch(`http://localhost:3000/interviews/${id}`, req).then((res) =>
+      res.json()
+    );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
     console.log("submitted form");
   };
 
